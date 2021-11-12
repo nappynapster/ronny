@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "projects": {
+    "ronny": {
+      "projectType": "application",
+      "root": "apps/ronny",
+      "sourceRoot": "apps/ronny/src",
+      "prefix": "ronny",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/ronny",
+            "index": "apps/ronny/src/index.html",
+            "main": "apps/ronny/src/main.ts",
+            "polyfills": "apps/ronny/src/polyfills.ts",
+            "tsConfig": "apps/ronny/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/ronny/src/favicon.ico", "apps/ronny/src/assets"],
+            "styles": ["apps/ronny/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/ronny/src/environments/environment.ts",
+                  "with": "apps/ronny/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "ronny:build:production"
+            },
+            "development": {
+              "browserTarget": "ronny:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ronny:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/ronny/src/**/*.ts",
+              "apps/ronny/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/ronny"],
+          "options": {
+            "jestConfig": "apps/ronny/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "ronny-e2e": {
+      "root": "apps/ronny-e2e",
+      "sourceRoot": "apps/ronny-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ronny-e2e/cypress.json",
+            "devServerTarget": "ronny:serve:development",
+            "tsConfig": "apps/ronny-e2e/tsconfig.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ronny:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/ronny-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["ronny"]
+    },
+    "terra-components": {
+      "projectType": "library",
+      "root": "libs/terra-components",
+      "sourceRoot": "libs/terra-components/src",
+      "prefix": "ronny",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/terra-components"],
+          "options": {
+            "jestConfig": "libs/terra-components/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/terra-components/src/**/*.ts",
+              "libs/terra-components/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    }
+  }
+}
